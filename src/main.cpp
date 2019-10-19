@@ -58,9 +58,21 @@ void competition_initialize() {
 void autonomous() {
 	// drive forward a given distance in cm.
 	std::cout << "Starting Autonomous Task \n";
-	driveForDistance(100);  // 100cm forward
+	driveForDistance(100, 50);  // 100cm forward
 
-	driveForDistance(-100); // 100cm backwards
+	driveForDistance(-100, 50); // 100cm backwards
+
+	// pivot turn
+	pivotTurn(90, 50);
+
+  pivotTurn(-90,50);
+
+	driveForDistance(50, 100);  // 50cm forward
+
+	swingTurn(90, 50);
+
+	swingTurn(-90, 50);
+
 }
 
 /**
@@ -78,6 +90,11 @@ void autonomous() {
  */
 void opcontrol() {
 	std::cout << "Starting Opcontrol Task \n";
+  // call manual autonomous run option, should be commented out in
+	// tournament production code to invertenly trigger autonmous
+	// during driver control
+	manualAutonomous();
+
   while(true) {
 	 if(ARCADE_MODE) {
 		 arcadeControl();

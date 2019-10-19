@@ -10,6 +10,7 @@ extern pros::Motor liftMotor1;
 extern pros::Motor clawMotor;
 
 extern pros::Controller master;
+extern pros::Controller partner;
 
 extern pros::ADIEncoder encoderOdometer;
 

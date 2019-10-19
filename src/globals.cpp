@@ -19,3 +19,4 @@ pros::Motor liftMotor1(LIFT_MOTOR_PORT, pros::E_MOTOR_GEARSET_18, false, pros::E
 pros::Motor clawMotor(CLAW_MOTOR_PORT, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
 
 pros::Controller master(pros::E_CONTROLLER_MASTER);
+pros::Controller partner(pros::E_CONTROLLER_PARTNER);
