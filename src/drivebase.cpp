@@ -35,16 +35,30 @@ void driveForDistance(float distance, int speed) {
   //             blue   - 600RPM
 
   float degreesTravel = (distance / (3.14 * WHEEL_DIAM)) * 360;
+  // set the "window" for which we need to encoder to reach and stop movement
+  float degreesTravelAbs = fabsf(degreesTravel);
+  float minTarget = degreesTravelAbs -5;
+  float maxTarget = degreesTravelAbs +5;
+
   left_wheel.tare_position();       // ensure encoders are reset before
   right_wheel.tare_position();      // movement.
   left_wheel.move_absolute(degreesTravel, speed);
   right_wheel.move_absolute(degreesTravel, speed);
 
-  std::cout << "Degrees to travel: " << degreesTravel << "\n";
+  if(DEBUG){
+     std::cout << "Degrees to travel: " << degreesTravel << "\n";
+     std::cout << "minTarget: " << minTarget << " maxTarget: " << maxTarget << "\n";
+  }
   // We need to make sure motors reach there target +- 5 degrees.
-  while (!((left_wheel.get_position() < (degreesTravel + 5)) && (left_wheel.get_position() > degreesTravel - 5))) {
+  while (!((fabs(left_wheel.get_position()) < (maxTarget)) && (fabs(left_wheel.get_position()) > minTarget))) {
     pros::delay(2);
   }
+  if(DEBUG) {
+    std::cout << "Encoder Left: " << left_wheel.get_position() << " Right: " << right_wheel.get_position() << "\n";
+  }
+  // we sill stop the motors
+  left_wheel.move_velocity(0);
+  right_wheel.move_velocity(0);
 }
 
 void pivotTurn(float angle, int speed){
@@ -57,10 +71,18 @@ void pivotTurn(float angle, int speed){
   float turnCircleCirc = 3.14 * WHEEL_BASE;
   float toTravelCircleDistance = (angle * turnCircleCirc ) / 360;
   float degreesTravel = (toTravelCircleDistance / (3.14 * WHEEL_DIAM)) * 360;
+
+  float degreesTravelAbs = fabsf(degreesTravel);
+  float minTarget = degreesTravelAbs -5;
+  float maxTarget = degreesTravelAbs +5;
+
   left_wheel.tare_position();       // ensure encoders are reset before
   right_wheel.tare_position();      // movement.
 
-  std::cout << "Degrees to travel: " << degreesTravel << " Angle: " << angle << "\n";
+  if(DEBUG){
+    std::cout << "Degrees to travel: " << degreesTravel << " Angle: " << angle << "\n";
+    std::cout << "minTarget: " << minTarget << " maxTarget: " << maxTarget << "\n";
+  }
 
   if(angle >= 0) {
     //clockwise
@@ -73,8 +95,14 @@ void pivotTurn(float angle, int speed){
     right_wheel.move_absolute(-degreesTravel, speed);
   }
   // We need to make sure motors reach there target +- 5 degrees.
-  while (!((fabs(left_wheel.get_position()) < fabs((degreesTravel + 5))) && (fabs(left_wheel.get_position()) > fabs(degreesTravel - 5)))) {
+  while (!((fabs(left_wheel.get_position()) < (maxTarget)) && (fabs(left_wheel.get_position()) > minTarget))) {
     pros::delay(2);
+  }
+  // we sill stop the motors
+  left_wheel.move_velocity(0);
+  right_wheel.move_velocity(0);
+  if(DEBUG) {
+    std::cout << "Encoder Left: " << left_wheel.get_position() << " Right: " << right_wheel.get_position() << "\n";
   }
 }
 
@@ -88,26 +116,38 @@ void swingTurn(float angle, int speed){
   float toTravelCircleDistance = (angle * turnCircleCirc ) / 360;
   // WHEEL_DIAM in this case is the radius of the turning circle - so we must do 2PIr
   float degreesTravel = ((toTravelCircleDistance / (3.14 * WHEEL_DIAM)) * 360) * 2;
+  float degreesTravelAbs = fabsf(degreesTravel);
+  float minTarget = degreesTravelAbs -5;
+  float maxTarget = degreesTravelAbs +5;
+
   left_wheel.tare_position();       // ensure encoders are reset before
   right_wheel.tare_position();      // movement.
 
-  std::cout << "Degrees to travel: " << degreesTravel << " Angle: " << angle << "\n";
+  if(DEBUG){
+     std::cout << "Degrees to travel: " << degreesTravel << " Angle: " << angle << "\n";
+
+  }
 
   if(angle >= 0) {
     //clockwise
-    left_wheel.move_absolute(degreesTravel, speed);
+    right_wheel.move_velocity(0);      // make sure we got a break on right wheel for swing turn
+    left_wheel.move_absolute(degreesTravelAbs, speed);
     // We need to make sure motors reach there target +- 5 degrees.
-    while (!(left_wheel.get_position() < (degreesTravel + 5)) && (left_wheel.get_position() > (degreesTravel - 5))) {
+    while (!((fabs(left_wheel.get_position()) < (maxTarget)) && (fabs(left_wheel.get_position()) > minTarget))) {
       pros::delay(2);
     }
   }
   if (angle <= 0){
-    // counter clockwise
-    degreesTravel = degreesTravel * -1;       // We need to make positive again
-    right_wheel.move_absolute(degreesTravel, speed);
+    left_wheel.move_velocity(0);      // make sure we got a break on left wheel for swing turn
+    right_wheel.move_absolute(degreesTravelAbs, speed);
     // We need to make sure motors reach there target +- 5 degrees.
-    while (!(right_wheel.get_position() < (degreesTravel + 5)) && (right_wheel.get_position() > (degreesTravel - 5))) {
+    while (!((fabs(right_wheel.get_position()) < (maxTarget)) && (fabs(right_wheel.get_position()) > minTarget))) {
       pros::delay(2);
     }
+  }
+  left_wheel.move_velocity(0);
+  right_wheel.move_velocity(0);
+  if(DEBUG) {
+    std::cout << "Encoder Left: " << left_wheel.get_position() << " Right: " << right_wheel.get_position() << "\n";
   }
 }

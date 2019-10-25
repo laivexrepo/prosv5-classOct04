@@ -57,7 +57,7 @@ void competition_initialize() {
  */
 void autonomous() {
 	// drive forward a given distance in cm.
-	std::cout << "Starting Autonomous Task \n";
+	if(DEBUG){ std::cout << "Starting Autonomous Task \n"; }
 	driveForDistance(100, 50);  // 100cm forward
 
 	driveForDistance(-100, 50); // 100cm backwards
@@ -89,11 +89,12 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	std::cout << "Starting Opcontrol Task \n";
+	if(DEBUG){ std::cout << "Starting Opcontrol Task \n"; }
   // call manual autonomous run option, should be commented out in
 	// tournament production code to invertenly trigger autonmous
 	// during driver control
-	manualAutonomous();
+	if(MANUAL_AUTON) {manualAutonomous(); }		// allow for manual autonmous starts
+																						// define is does in globals.h
 
   while(true) {
 	 if(ARCADE_MODE) {
