@@ -46,6 +46,7 @@ void driveForDistance(float distance, int speed) {
   right_wheel.move_absolute(degreesTravel, speed);
 
   if(DEBUG){
+     std::cout << "\ndriveForDistance -- distance: " << distance << " speed: " << speed << "\n";
      std::cout << "Degrees to travel: " << degreesTravel << "\n";
      std::cout << "minTarget: " << minTarget << " maxTarget: " << maxTarget << "\n";
   }
@@ -80,6 +81,7 @@ void pivotTurn(float angle, int speed){
   right_wheel.tare_position();      // movement.
 
   if(DEBUG){
+    std::cout << "\nPivot Turn Function -- " << " speed: " << speed << "\n";
     std::cout << "Degrees to travel: " << degreesTravel << " Angle: " << angle << "\n";
     std::cout << "minTarget: " << minTarget << " maxTarget: " << maxTarget << "\n";
   }
@@ -124,8 +126,9 @@ void swingTurn(float angle, int speed){
   right_wheel.tare_position();      // movement.
 
   if(DEBUG){
-     std::cout << "Degrees to travel: " << degreesTravel << " Angle: " << angle << "\n";
-
+    std::cout << "\nSwingTurn -- speed: " << speed << "\n";
+    std::cout << "Degrees to travel: " << degreesTravel << " Angle: " << angle << "\n";
+    std::cout << "minTarget: " << minTarget << " maxTarget: " << maxTarget << "\n";
   }
 
   if(angle >= 0) {
