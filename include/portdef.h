@@ -13,7 +13,7 @@
 // ------------ Vision Sensors ---------------------
 #define VISION_ONE 14
 
-// ----------- LEGACY port assignements ------------
+// ----------- LEGACY port assignments ------------
 #define BUTTON_SWITCH_PORT 1
 #define QUAD1_TOP_PORT 3
 #define QUAD1_BOTTOM_PORT 4

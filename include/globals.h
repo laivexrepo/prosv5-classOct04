@@ -14,7 +14,10 @@ extern pros::Controller partner;
 
 extern pros::ADIEncoder encoderOdometer;
 
-// ----------- Golbal variable to control drive base mode -----------------
+// ------------ Global accessible functions -------------------------------
+extern void robotDataLogger();
+
+// ----------- Global variable to control drive base mode -----------------
 #define ARCADE_MODE false     // run in tankmode - if true arcade mode
 
 // ----------- Global variables to assist in code development ------------
