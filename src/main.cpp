@@ -5,6 +5,7 @@
 #include "lift.h"
 #include "claw.h"
 #include "autonomous.h"
+#include "vision.h"
 
 
 /**
@@ -22,6 +23,10 @@ void initialize() {
 
   // Set the brake mode for the lift motor - hold position when stopped
 	liftMotor1.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+
+	// vision sensor
+	pros::Vision vision_sensor (VISION_PORT);
+  vision_sensor.clear_led();
 }
 
 /**
@@ -95,6 +100,17 @@ void opcontrol() {
 	// during driver control
 	if(MANUAL_AUTON) {manualAutonomous(); }		// allow for manual autonmous starts
 																						// define is does in globals.h
+
+  // For testing we are inserting vision code
+	define_signature();		//create the signature
+	pros::delay(10);
+	
+	get_signature();
+
+	pros::delay(10000);
+
+	detect_cube();				// run a forever loop looking for cube
+
 
   while(true) {
 	 if(ARCADE_MODE) {

@@ -11,7 +11,7 @@
 #define VEX_RADIO 6
 
 // ------------ Vision Sensors ---------------------
-#define VISION_ONE 14
+#define VISION_PORT 14
 
 // ----------- LEGACY port assignments ------------
 #define BUTTON_SWITCH_PORT 1

@@ -14,6 +14,8 @@ extern pros::Controller partner;
 
 extern pros::ADIEncoder encoderOdometer;
 
+extern pros::Vision vision_sensor;
+
 // ------------ Global accessible functions -------------------------------
 extern void robotDataLogger();
 
